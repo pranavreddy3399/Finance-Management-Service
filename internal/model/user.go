@@ -3,13 +3,13 @@ package model
 import "time"
 
 type User struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
-	Phno      string    `json:"phno"`
-	Status    string    `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        string    `db:"id"         json:"id"`
+	Name      string    `db:"name"       json:"name"`
+	Email     string    `db:"email"      json:"email"`
+	Phno      string    `db:"phno"       json:"phno"`
+	Status    string    `db:"status"     json:"status"`
+	CreatedAt time.Time `db:"created_at" json:"created_at"`
+	UpdatedAt time.Time `db:"updated_at" json:"updated_at"`
 }
 
 type UserToFriendsEntity struct {

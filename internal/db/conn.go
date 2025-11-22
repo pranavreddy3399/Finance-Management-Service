@@ -1,34 +1,38 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
-// InitMySQL establishes a global MySQL connection
-func InitMySQL() (*sql.DB, error) {
+func InitMySQL() (*sqlx.DB, error) {
 	dbUser := "root"
 	dbPass := "password"
 	dbHost := "127.0.0.1"
 	dbPort := "3306"
 	dbName := "fms"
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
+	// Add parseTime=true for proper time.Time scanning
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
+		dbUser, dbPass, dbHost, dbPort, dbName,
+	)
 
-	dbConn, err := sql.Open("mysql", dsn)
+	// Use sqlx.Connect (opens + pings automatically)
+	db, err := sqlx.Connect("mysql", dsn)
 	if err != nil {
-		log.Fatalf("❌ Error opening DB: %v", err)
+		log.Fatalf("❌ Failed to connect to MySQL: %v", err)
 		return nil, err
 	}
 
-	if err = dbConn.Ping(); err != nil {
-		log.Fatalf("❌ Cannot connect to MySQL: %v", err)
-		return nil, err
-	}
+	// Set recommended connection pool sizes
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(25)
+	db.SetConnMaxLifetime(0)
 
-	fmt.Println("✅ Connected to MySQL database:", dbName)
-	return dbConn, nil
+	fmt.Println("✅ Connected to MySQL using sqlx:", dbName)
+	return db, nil
 }
