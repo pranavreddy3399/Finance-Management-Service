@@ -64,3 +64,29 @@ func (er *ExpenseRepo) AddExpenseSplit(ctx context.Context, expenseSplit *model.
 
 	return expenseSplit.ExpenseSplitID, nil
 }
+
+func (er *ExpenseRepo) GetExpensesForUser(ctx context.Context, userID string) ([]*model.ExpenseEntity, error) {
+	const q = `
+		SELECT
+			expense_id,
+			user_id,
+			group_id,
+			amount,
+			category,
+			created_at,
+			note,
+			status,
+			title,
+			updated_at
+		FROM expense
+		ORDER BY created_at DESC;
+		`
+
+	var expenses []*model.ExpenseEntity
+	err := er.db.SelectContext(ctx, &expenses, q, userID)
+	if err != nil {
+		return nil, fmt.Errorf("GetExpensesForUser: %w", err)
+	}
+
+	return expenses, nil
+}
