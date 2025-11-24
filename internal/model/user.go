@@ -13,7 +13,7 @@ type User struct {
 }
 
 type UserToFriendsEntity struct {
-	UserID   string `json:"user_id"`
-	FriendID string `json:"friend_id"`
-	Status   string `json:"status"`
+	UserID   string `json:"user_id" db:"user_id"`
+	FriendID string `json:"friend_id" db:"friend_id"`
+	Status   string `json:"status" db:"status"`
 }

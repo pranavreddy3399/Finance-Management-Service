@@ -2,7 +2,7 @@ package main
 
 import (
 	"fms/internal/db"
-	userhandler "fms/internal/handler"
+	"fms/internal/handler"
 	"fms/internal/repo"
 	"fms/internal/server"
 	"fms/internal/service"
@@ -20,8 +20,10 @@ func main() {
 
 	defer dbConn.Close()
 	userRepo := repo.NewUserRepo(dbConn)
-	userHandler := userhandler.NewUserHandler(userRepo)
-	service := service.NewService(&userHandler)
+	expRepo := repo.NewExpenseRepo(dbConn)
+	userHandler := handler.NewUserHandler(userRepo)
+	expHandler := handler.NewExpenseHandler(&expRepo, &userRepo)
+	service := service.NewService(&userHandler, &expHandler)
 	server := server.NewServer(service)
 	err = server.RegisterServerAndRoutes()
 	if err != nil {

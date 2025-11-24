@@ -2,7 +2,7 @@ package service
 
 import (
 	"encoding/json"
-	userhandler "fms/internal/handler"
+	"fms/internal/handler"
 	"fms/internal/request"
 	"fmt"
 	"net/http"
@@ -10,13 +10,15 @@ import (
 
 type Service struct {
 	// Add necessary fields here, e.g., repositories, configurations
-	UserHandler userhandler.UserHandlerRepo
+	UserHandler    handler.UserHandlerRepo
+	ExpenseHandler handler.ExpenseHandlerRepo
 }
 
-func NewService(userHandler *userhandler.UserHandlerRepo) *Service {
+func NewService(userHandler *handler.UserHandlerRepo, expHandler *handler.ExpenseHandlerRepo) *Service {
 	return &Service{
 		// Initialize fields here
-		UserHandler: *userHandler,
+		UserHandler:    *userHandler,
+		ExpenseHandler: *expHandler,
 	}
 }
 

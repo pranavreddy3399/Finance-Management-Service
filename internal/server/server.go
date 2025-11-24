@@ -22,8 +22,12 @@ func (ser *Server) RegisterServerAndRoutes() error {
 		w.Write([]byte("pong"))
 	})
 
+	//user routes
 	http.HandleFunc("/user/", ser.Service.GetUserById)
-	http.HandleFunc("/createuser/", ser.Service.CreateUser)
+	http.HandleFunc("/create-user/", ser.Service.CreateUser)
+
+	//expense routes
+	http.HandleFunc("/add-expense/", ser.Service.AddExpense)
 
 	fmt.Println("connecting to port 9090")
 	err := http.ListenAndServe(":9090", nil)
