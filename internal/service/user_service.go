@@ -12,13 +12,15 @@ type Service struct {
 	// Add necessary fields here, e.g., repositories, configurations
 	UserHandler    handler.UserHandlerRepo
 	ExpenseHandler handler.ExpenseHandlerRepo
+	GroupHandler   handler.GroupHandlerRepo
 }
 
-func NewService(userHandler *handler.UserHandlerRepo, expHandler *handler.ExpenseHandlerRepo) *Service {
+func NewService(userHandler *handler.UserHandlerRepo, expHandler *handler.ExpenseHandlerRepo, groupHandler *handler.GroupHandlerRepo) *Service {
 	return &Service{
 		// Initialize fields here
 		UserHandler:    *userHandler,
 		ExpenseHandler: *expHandler,
+		GroupHandler:   *groupHandler,
 	}
 }
 

@@ -21,10 +21,10 @@ type ExpenseHandler struct {
 	UserRepo    repo.UserRepoInt
 }
 
-func NewExpenseHandler(expenseRepo *repo.ExpenseRepoInt, userRepo *repo.UserRepoInt) ExpenseHandlerRepo {
+func NewExpenseHandler(expenseRepo repo.ExpenseRepoInt, userRepo repo.UserRepoInt) ExpenseHandlerRepo {
 	return &ExpenseHandler{
-		ExpenseRepo: *expenseRepo,
-		UserRepo:    *userRepo,
+		ExpenseRepo: expenseRepo,
+		UserRepo:    userRepo,
 	}
 }
 

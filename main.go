@@ -21,9 +21,11 @@ func main() {
 	defer dbConn.Close()
 	userRepo := repo.NewUserRepo(dbConn)
 	expRepo := repo.NewExpenseRepo(dbConn)
+	groupRepo := repo.NewGroupRepo(dbConn)
 	userHandler := handler.NewUserHandler(userRepo)
-	expHandler := handler.NewExpenseHandler(&expRepo, &userRepo)
-	service := service.NewService(&userHandler, &expHandler)
+	expHandler := handler.NewExpenseHandler(expRepo, userRepo)
+	groupHandler := handler.NewGroupHandler(groupRepo)
+	service := service.NewService(&userHandler, &expHandler, &groupHandler)
 	server := server.NewServer(service)
 	err = server.RegisterServerAndRoutes()
 	if err != nil {

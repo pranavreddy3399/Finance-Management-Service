@@ -19,3 +19,16 @@ type ExpenseCreateRequest struct {
 	FriendID string                `json:"friend_id"`
 	Category enums.ExpenseCategory `json:"category"`
 }
+
+//Group Requests
+
+type GroupCreateRequest struct {
+	GroupName   string `json:"group_name"`
+	Description string `json:"description"`
+	CreatedBy   string `json:"created_by"`
+}
+
+type GroupMemberAddRequest struct {
+	GroupID       string `json:"group_id"`
+	GroupMemberID string `json:"group_member_id"`
+}
