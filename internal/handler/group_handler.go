@@ -13,6 +13,7 @@ type GroupHandlerRepo interface {
 	// Define necessary methods here
 	CreateGroup(ctx context.Context, groupRequest *request.GroupCreateRequest) (string, error)
 	AddGroupMember(ctx context.Context, memberRequest *request.GroupMemberAddRequest) error
+	GetGroupMembers(ctx context.Context, groupId string) ([]*model.GroupMemberDetailEntity, error)
 }
 
 type GroupHandler struct {
@@ -41,10 +42,10 @@ func (gh *GroupHandler) CreateGroup(ctx context.Context, groupRequest *request.G
 	}
 
 	err = gh.GroupRepo.AddGroupMember(ctx, &model.GroupMemberEntity{
-		GroupMemberID: groupRequest.CreatedBy,
-		GroupID:       groupId,
-		Role:          "ADMIN",
-		Status:        "ACTIVE",
+		UserID:  groupRequest.CreatedBy,
+		GroupID: groupId,
+		Role:    "ADMIN",
+		Status:  "ACTIVE",
 	})
 
 	if err != nil {
@@ -56,9 +57,17 @@ func (gh *GroupHandler) CreateGroup(ctx context.Context, groupRequest *request.G
 
 func (gh *GroupHandler) AddGroupMember(ctx context.Context, memberRequest *request.GroupMemberAddRequest) error {
 	return gh.GroupRepo.AddGroupMember(ctx, &model.GroupMemberEntity{
-		GroupMemberID: memberRequest.GroupMemberID,
-		GroupID:       memberRequest.GroupID,
-		Role:          "MEMBER",
-		Status:        "ACTIVE",
+		UserID:  memberRequest.UserId,
+		GroupID: memberRequest.GroupID,
+		Role:    "MEMBER",
+		Status:  "ACTIVE",
 	})
+}
+
+func (gh *GroupHandler) GetGroupMembers(ctx context.Context, groupId string) ([]*model.GroupMemberDetailEntity, error) {
+	members, err := gh.GroupRepo.GetMembersByGroupID(ctx, groupId)
+	if err != nil {
+		return nil, err
+	}
+	return members, nil
 }

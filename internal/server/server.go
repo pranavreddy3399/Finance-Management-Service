@@ -32,6 +32,7 @@ func (ser *Server) RegisterServerAndRoutes() error {
 	//group routes
 	http.HandleFunc("/create-group/", ser.Service.CreateGroup)
 	http.HandleFunc("/add-group-member/", ser.Service.AddMembersToGroup)
+	http.HandleFunc("/get-group-members/", ser.Service.GetGroupMembers)
 
 	fmt.Println("connecting to port 9090")
 	err := http.ListenAndServe(":9090", nil)

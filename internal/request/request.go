@@ -29,6 +29,6 @@ type GroupCreateRequest struct {
 }
 
 type GroupMemberAddRequest struct {
-	GroupID       string `json:"group_id"`
-	GroupMemberID string `json:"group_member_id"`
+	GroupID string `json:"group_id"`
+	UserId  string `json:"user_id"`
 }

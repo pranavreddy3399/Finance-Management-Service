@@ -12,9 +12,19 @@ type GroupEntity struct {
 }
 
 type GroupMemberEntity struct {
-	GroupMemberID string    `json:"group_member_id" db:"group_member_id"`
-	GroupID       string    `json:"group_id" db:"group_id"`
-	Role          string    `json:"role" db:"role"`
-	Status        string    `json:"status" db:"status"`
-	JoinedAt      time.Time `json:"joined_at" db:"joined_at"`
+	UserID   string    `json:"user_id" db:"user_id"`
+	GroupID  string    `json:"group_id" db:"group_id"`
+	Role     string    `json:"role" db:"role"`
+	Status   string    `json:"status" db:"status"`
+	JoinedAt time.Time `json:"joined_at" db:"joined_at"`
+}
+
+type GroupMemberDetailEntity struct {
+	GroupMemberID string `json:"user_id" db:"user_id"`
+	GroupID       string `json:"group_id" db:"group_id"`
+	Role          string `json:"role" db:"role"`
+	Status        string `json:"status" db:"status"`
+	Name          string `json:"name" db:"name"`
+	Email         string `json:"email" db:"email"`
+	Phno          string `json:"phno" db:"phno"`
 }
