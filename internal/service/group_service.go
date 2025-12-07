@@ -53,3 +53,27 @@ func (s *Service) AddMembersToGroup(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Member added to group successfully"))
 }
+
+func (s *Service) GetGroupMembers(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	fmt.Println("GetGroupMembers called")
+	// 1. Read `group_id` query param
+	groupId := r.URL.Query().Get("group_id")
+	if groupId == "" {
+		http.Error(w, "group_id query param is required", http.StatusBadRequest)
+		return
+	}
+
+	// 2. Call repo/service to fetch group members
+	members, err := s.GroupHandler.GetGroupMembers(ctx, groupId)
+	if err != nil {
+		http.Error(w, "failed to fetch group members: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	// 4. Return members as JSON
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(members); err != nil {
+		http.Error(w, "failed to encode group members", http.StatusInternalServerError)
+		return
+	}
+}
